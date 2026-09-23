@@ -72,8 +72,8 @@ informative:
 Merkle Tree Certificates (MTC)
 I-D.ietf-plants-merkle-tree-certs has been defined for the
 use case of the WebPKI.
-In this document we explore when and how MTC in parts or full can be used in different
-use cases. Some of this use-cases may provide benefit for private PKI usage.
+In this document we explore when and how MTC in parts or in full can be used in different
+use cases. Some of these use-cases may provide benefit for private PKI usage.
 
 
 --- middle
@@ -113,7 +113,7 @@ A Merkle Tree Certificate is a regular X509 certificate with two
 differences:
 
 1. Instead of a single signature, an MTC can contain zero or more signatures:
-   zero in the case of landmark-relative and one-or-more in case of standalone.
+   zero in the case of landmark-relative and one-or-more in the case of standalone MTCs.
    One is by the issuer, and others are added when certificate transparency is required.
 2. The contents of the certificate is not signed directly, but instead
    a Merkle tree head is signed, together with providing a proof-of-inclusion
@@ -122,7 +122,7 @@ differences:
 The use of a Merkle tree allows for batch signing, and the cost of a signature is
 amortized over the number of certificates at the leaf notes.
 
-If a verifier has out-of-band knowledge of the treehead used (which in
+If a verifier has out-of-band knowledge of the tree head used (which in
 that case is called a *landmark*), then it can be satisfied with
 the landmark-relative certificate that leaves out the signatures.
 
@@ -153,13 +153,13 @@ frequency of certificate signing requests and acceptable issuance latency.
 
 # Use cases
 
-## Verification of LandMark-Relative Merkle Tree Certificates outside the WebPKI
+## Verification of Landmark-Relative Merkle Tree Certificates outside the WebPKI
 
 Merkle Tree Certificates which only contain the inclusion proof
 to a signed tree head can only be verified when the verifier contains the
 landmark that completes the inclusion proof contained in the Certificate
 signature field.  If the certificate is in a non webPKI environment where it has an
-online connection it should be possible for the verifier to request a refresh
+online connection, it should be possible for the verifier to request a refresh
 of its landmarks.  There are different ways this can be accomplished:
 
 1. It can be done dynamically, on demand by the verifier.  A mechanism
@@ -414,10 +414,10 @@ TODO:  Generating the consistency proof at the LDP server introduces an O(N^2) p
 As mentioned above, the landmarks can be fetched dynamically as needed by
 combining the start and end values from the MTCProof.  The LDP server fulfilling
 these requests will need to parse the start and end values, aggregate the
-require landmark subtrees together, and send the responce back to the client.
-The responce format will be:
+required landmark subtrees together, and send the response back to the client.
+The response format will be:
 
-TODO:  DEFINE responce format
+TODO:  DEFINE response format
 
 
 ## Batching for performance optimization
@@ -471,7 +471,7 @@ around 4kb, which is 8 to 10 times larger!
 
 Merkle Tree-based revocation can be significantly more efficient than CRL and OCSP by
 effectively using small cryptographic proof sizes along with batch signing.  For
-example, in OCSP each proof is signed, in Merkle Tree Revocation, each proof becomes
+example, in OCSP each proof is signed; in Merkle Tree Revocation, each proof becomes
 a leaf-hash in the Merkle Tree.  A relying party only needs a small cryptographic
 proof, typically logarithmic in the number of certificates, rather than downloading
 an entire revocation list or contacting an online responder for each validation. This
